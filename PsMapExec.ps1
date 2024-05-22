@@ -24,7 +24,7 @@ Function PsMapExec {
         [String]$Hash,
 
         [Parameter(Mandatory = $False, ParameterSetName = 'Default')]
-        [String]$Password,
+        [pscredential]$Password,
 
         [Parameter(Mandatory = $False, ParameterSetName = 'Default')]
         [String]$UserDomain,
