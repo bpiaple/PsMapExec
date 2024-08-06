@@ -9,6 +9,9 @@ A PowerShell tool heavily inspired by the popular tool CrackMapExec / NetExec. P
 
 PsMapExec is used as a post-exploitation tool to assess and compromise an Active Directory environment. 
 
+For any feedback or suggestions for additions to PsMapExec please use the discussion forum: 
+- https://github.com/The-Viper-One/PsMapExec/discussions
+
 ## How do I use it
 
 It is highly recommended to go through the documentation listed below to get the most out of PsMapExec. If you do not feel like reading the documentation then simply go to the Usage section further down this document.
@@ -21,28 +24,52 @@ It is highly recommended to go through the documentation listed below to get the
 
 ## What methods does it support
 
-Currently supported  methods (Protocols)
+Currently supported methods (Protocols)
 
-* IPMI
-* MSSQL
-* RDP
-* SessionHunter
-* SMB
-* SMB Signing
-* Spraying (Hash, Password, EmptyPassword and AccountAsPassword)
-* VNC
-* WinRM
-* WMI
+| Method           | Description                                      |
+|------------------|--------------------------------------------------|
+| [IPMI](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/ipmi)|Dump IPMI hashes|
+| [Kerberoast](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/kerberoast) |Kerberoast accounts|
+| [MSSQL](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/mssql)|Check access, run commands|
+| RDP             | Check access|
+| [SMB](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/command-execution)|Check access, run commands|
+| [GenRelayList](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/genrelaylist-smb-signing)|Check SMB signing status|
+| [Spray](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/spray)|Spray passwords and hashes|
+| [SessionHunter](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/session-hunter)|Check access, run commands|
+| VNC         |Check no auth access|
+| [WinRM](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/command-execution)|Check access, run commands|
+| [WMI](https://viperone.gitbook.io/pentest-everything/psmapexec/methods/command-execution)|Check access, run commands|
 
-Planned methods
+### Supported Modules
 
-* SNMP (In testing)
-* FTP
-* SSH
+| Module           | Description                                      |
+|------------------|--------------------------------------------------|
+| [Amnesiac](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/amnesiac)|Executes Amnesiac C2 payloads|
+| [ConsoleHistory](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/consolehistory)|Dumps PowerShell console history|
+| [Files](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/files)|Lists files in common directories for each user|
+| [FileZilla](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/filezilla)|Dumps Filezilla credentials
+| [KerbDump](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/kerbdump)|Dumps Kerberos tickets|
+| [eKeys](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/ekeys)|Dumps encryption keys from memory (Mimikatz)|
+| [LogonPasswords](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/logonpasswords)|Dumps logon passwords from memory (Mimikatz)|
+| [LSA](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/lsa)|Dumps LSA (Mimikatz)|
+| [NTDS](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/ntds) |Executes DCsync on the remote system|
+| [Notepad](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/notepad) |Dumps notepad backup files
+| [NTLM](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/ntlm) |(WIP) Grabs a NTLM hash for each user logon session|
+| [SAM](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/sam)|Dumps SAM hashes|
+| [SCCM](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/sccm) |Dumps local NAA credentials and task sequences|
+| [SessionExec](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/SessionExec) |(WIP) Executes commands under each user logon session|
+| [SessionRelay](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/SessionRelay) |(WIP) Relay NTLM hashes under each user logon session|
+| [TGTDeleg](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/TGTDeleg) |(WIP) Grab a fresh TGT under each user logon session|
+| [VNC](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/vnc) | Dumps VNC credentials
+| [Wi-Fi](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/wi-fi) | Dumps Wi-Fi credentials
+| [WinSCP](https://viperone.gitbook.io/pentest-everything/psmapexec/modules/winscp) | Dumps  WinSCP credentials
+
+
+
   
 ## Usage
 ### Load the script directly into memory
-```
+```powershell
 IEX(New-Object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/The-Viper-One/PsMapExec/main/PsMapExec.ps1")
 ```
 ### Quick examples
@@ -165,29 +192,13 @@ A list of modules is linked below in the Detailed Usage section.
 * https://github.com/OneScripter/WmiExec
 * https://github.com/MzHmO/PowershellKerberos
 * https://github.com/Kevin-Robertson/Inveigh
+* https://github.com/Mayyhem/SharpSCCM
+* https://github.com/tmenochet
+* https://github.com/elnerd/Get-NetNTLM
 
 ## Dependencies
 Since version 0.6.0 PsMapExec now no longer has any external script dependencies apart from the Amnesiac module which will be resolved in a future update.
-PsMapExec can now, otherwise be run in restricted envrionments such as exam labs or CTF machines.
-
-## Showcase
-#### SAM
-![image](https://github.com/The-Viper-One/PsMapExec/assets/68926315/e149e353-e0e9-426c-916a-4cdc2befbfb7)
-
-#### LogonPasswords
-![image](https://github.com/The-Viper-One/PsMapExec/assets/68926315/ab85bda0-51a5-4de1-b792-4b1994ed1499)
-
-### Ticket Dump
-![image](https://github.com/The-Viper-One/PsMapExec/assets/68926315/a119466b-3e78-4d26-b7f4-560f8dc0853f)
-
-#### GenRelayList / SMB Signing
-![image](https://github.com/The-Viper-One/PsMapExec/assets/68926315/191218f5-9ede-4702-94cf-446404bdb44f)
-
-#### VNC
-![image](https://github.com/The-Viper-One/PsMapExec/assets/68926315/674a83e7-de9c-40d3-9e67-8c9a68873779)
-
-
-
+PsMapExec can now, otherwise be run in restricted environments such as exam labs or CTF machines.
 
 
 # Disclaimer
@@ -196,5 +207,4 @@ PsMapExec is designed primarily for research, educational, and authorized testin
 Engaging in unauthorized activities, including, but not limited to, accessing systems without permission, can lead to severe legal consequences. Users must be fully aware of, and adhere to, all their jurisdictional, local, state, and federal laws and regulations concerning cybersecurity and digital access.
 
 The developers and contributors of PsMapExec expressly disclaim all liabilities and responsibilities for any unauthorized or illicit use of the tool. Additionally, they are not responsible for any consequent damages, losses, or repercussions stemming from the misuse or misapplication of PsMapExec.
-
 
